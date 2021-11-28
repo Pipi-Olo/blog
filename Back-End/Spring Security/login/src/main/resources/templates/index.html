@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Spring Security - Signup / Login</title>
+</head>
+<body>
+  <ul>
+    <li>
+      <!-- 관리자만 -->
+      <a
+          sec:authorize="hasAnyRole('ROLE_ADMIN')"
+          th:href="@{/admin}"
+          >
+        Admin
+      </a>
+    </li>
+    <li>
+      <!-- 인증을 안 받은 사람만 -->
+      <a
+          sec:authorize="!isAuthenticated()"
+          th:href="@{/login}"
+      >
+        Login
+      </a>
+    </li>
+    <li>
+      <!-- 인증을 안 받은 사람만 -->
+      <a
+          sec:authorize="!isAuthenticated()"
+          th:href="@{/signup}"
+      >
+        Signup
+      </a>
+    </li>
+    <li>
+      <!-- 인증을 받은 사람만 -->
+      <a
+          sec:authorize="isAuthenticated()"
+          th:href="@{/logout}"
+      >
+        Logout
+      </a>
+    </li>
+  </ul>
+</body>
+</html>
