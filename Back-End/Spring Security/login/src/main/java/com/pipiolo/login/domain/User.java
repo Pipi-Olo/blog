@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
     @Builder
@@ -42,10 +43,6 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
-    }
-
-    public boolean isPwMatch(String password) {
-        return password.equals(this.password);
     }
 
     @Override
