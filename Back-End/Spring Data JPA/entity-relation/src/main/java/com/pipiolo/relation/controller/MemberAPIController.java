@@ -1,7 +1,7 @@
 package com.pipiolo.relation.controller;
 
-import com.pipiolo.relation.domain.Member;
 import com.pipiolo.relation.dto.MemberRequest;
+import com.pipiolo.relation.dto.MemberResponse;
 import com.pipiolo.relation.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +16,12 @@ public class MemberAPIController {
     private final MemberService memberService;
 
     @GetMapping()
-    public List<Member> getMembers() {
+    public List<MemberResponse> getMembers() {
         return memberService.findAll();
     }
 
     @GetMapping("/{memberId}")
-    public Member getMember(@PathVariable Long memberId) {
+    public MemberResponse getMember(@PathVariable Long memberId) {
         return memberService.getMember(memberId);
     }
 
