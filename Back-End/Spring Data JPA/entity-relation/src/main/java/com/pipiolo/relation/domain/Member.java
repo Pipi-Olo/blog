@@ -15,7 +15,6 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @JsonManagedReference
     @ManyToOne
     private Team team;
 

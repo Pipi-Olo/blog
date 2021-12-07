@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -17,9 +19,8 @@ public class Team extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @JsonBackReference
     @OneToMany
-    private List<Member> memberList = new ArrayList<>();
+    private final List<Member> members = new ArrayList<>();
 
     @Builder
     public Team(String name) {
@@ -27,6 +28,6 @@ public class Team extends BaseEntity {
     }
 
     public void addMember(Member member) {
-        memberList.add(member);
+        members.add(member);
     }
 }
