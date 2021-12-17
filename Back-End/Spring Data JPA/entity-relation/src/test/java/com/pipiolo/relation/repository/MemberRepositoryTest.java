@@ -4,12 +4,15 @@ import com.pipiolo.relation.domain.Member;
 import com.pipiolo.relation.domain.Team;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@DisplayName("[DB] - MemberRepository")
 @DataJpaTest
 class MemberRepositoryTest {
 
@@ -27,32 +30,40 @@ class MemberRepositoryTest {
 
     @BeforeEach
     void setup() {
-        Team team = Team.builder()
-                .name("TeamName")
-                .build();
-        teamRepository.save(team);
-
+        List<Team> teams = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Member member = Member.builder()
-                    .name("MemberName" + i)
-                    .team(team)
+            Team team = Team.builder()
+                    .name("Team Name " + i)
                     .build();
+            teams.add(team);
+        }
+        teamRepository.saveAll(teams);
 
-            team.addMember(member);
-            memberRepository.save(member);
+        for (Team team : teams) {
+            List<Member> members = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                Member member = Member.builder()
+                        .name("Member Name " + i)
+                        .team(team)
+                        .build();
+                members.add(member);
+            }
+            team.addMembers(members);
+            memberRepository.saveAll(members);
         }
     }
 
+    @DisplayName("조건 없이, 멤버를 검색하면 멤버 리스트를 반환한다.")
     @Test
-    void givenNothing_whenFindMemberAll_thenReturnsMemberList() {
+    void givenNothing_whenFindMembers_thenReturnsMemberList() {
         // Given
 
         // When
-        List<Team> teamList = teamRepository.findAll();
         List<Member> memberList = memberRepository.findAll();
-//        List<Member> memberList = memberRepository.findAllJoinQuery();
 
         // Then
-//        Assertions.assertEquals(10, memberList.size());
+        Assertions.assertEquals(100, memberList.size());
+        Assertions.assertEquals("Member Name 0", memberList.get(0).getName());
+        Assertions.assertEquals("Team Name 0", memberList.get(0).getTeam().getName());
     }
 }

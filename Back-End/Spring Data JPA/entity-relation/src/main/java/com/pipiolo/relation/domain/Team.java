@@ -1,15 +1,12 @@
 package com.pipiolo.relation.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -19,7 +16,7 @@ public class Team extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "team")
     private final List<Member> members = new ArrayList<>();
 
     @Builder
@@ -29,5 +26,11 @@ public class Team extends BaseEntity {
 
     public void addMember(Member member) {
         members.add(member);
+    }
+
+    public void addMembers(List<Member> members) {
+        for (Member member : members) {
+            this.members.add(member);
+        }
     }
 }
