@@ -1,5 +1,8 @@
 package com.pipiolo.kafka.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +22,20 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private Integer age;
 
-    @ManyToOne
-    private Team team;
+//    @JsonBackReference
+//    @ManyToOne
+//    private Team team;
 
+    @JsonCreator
     @Builder
-    public Member(String name, Integer age, Team team) {
+    public Member(
+            @JsonProperty("name") String name,
+            @JsonProperty("age") Integer age,
+            Team team
+    ) {
         this.name = name;
         this.age = age;
-        this.team = team;
+//        this.team = team;
     }
 }
 
